@@ -2,9 +2,15 @@
 name = "syslink"
 version = "0.1.0"
 authors = ["Jørgen Nordmoen <jorgen@nordmoen.net>"]
+description = "Crazyflie Syslink packet representation and parsing"
+keywords = ["crazyflie", "syslink", "nom"]
+license = "MIT or Apache-2.0"
+categories = ["embedded", "no-std", "science::robotics"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+readme = "README.md"
+homepage = "https://github.com/nordmoen/syslink"
+repository = "https://github.com/nordmoen/syslink"
+documentation = "https://docs.rs/eskf"
 
 [dependencies]
 heapless = "0.6.1"
