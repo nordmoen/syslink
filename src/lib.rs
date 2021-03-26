@@ -66,6 +66,7 @@ pub enum Radio {
     Channel = 0x01,
     DataRate = 0x02,
     ContWave = 0x03,
+    #[allow(clippy::upper_case_acronyms)]
     RSSI = 0x04,
     Address = 0x05,
     RawBroadcast = 0x06,
@@ -153,8 +154,10 @@ pub enum PacketType {
     /// Radio management related types
     Radio(Radio),
     /// Power management related types
+    #[allow(clippy::upper_case_acronyms)]
     PM(Power),
     /// OneWire management related types
+    #[allow(clippy::upper_case_acronyms)]
     OW(OneWire),
     /// An unknown packet type for this create
     Unknown(u8),
@@ -173,6 +176,7 @@ impl From<u8> for PacketType {
     }
 }
 
+#[allow(clippy::from_over_into)]
 impl Into<u8> for PacketType {
     fn into(self) -> u8 {
         match self {
@@ -232,6 +236,7 @@ pub struct Packet {
 
 impl Packet {
     /// Create a new packet from raw data
+    #[allow(clippy::result_unit_err)]
     pub fn new(typ: PacketType, data: &[u8]) -> Result<Self, ()> {
         Ok(Packet {
             typ,
