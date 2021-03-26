@@ -1,4 +1,6 @@
 # Syslink
+[![CI](https://github.com/nordmoen/syslink/actions/workflows/ci.yml/badge.svg)](https://github.com/nordmoen/syslink/actions/workflows/ci.yml)
+
 This crate implements the [Crazyflie](https://www.bitcraze.io/) [Syslink
 packet](https://www.bitcraze.io/documentation/repository/crazyflie2-nrf-firmware/master/protocols/syslink/)
 format.
@@ -14,7 +16,7 @@ more memory than necessary, but the upside is that it is easier to read from a
 stream of bytes and reclaim the bytes back to the stream once successfully
 parsed.
 
-# Usage
+## Usage
 ```rust
 use syslink::{Packet, ParseError};
 // We get some data into our buffer, but the following is an incomplete packet
