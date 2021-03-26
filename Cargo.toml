@@ -1,0 +1,11 @@
+[package]
+name = "syslink"
+version = "0.1.0"
+authors = ["Jørgen Nordmoen <jorgen@nordmoen.net>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+heapless = "0.6.1"
+nom = {version = "6.1.2", default-features = false}
