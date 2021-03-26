@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+
+jobs:
+  ci:
+    needs: clippy_fmt
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        rust: [stable]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        include:
+          - {rust: nightly, os: ubuntu-latest}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Rust ${{ matrix.rust }}
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
+
+      - name: Build project
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+
+      - name: Run tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --all
+
+  clippy_fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+
+      - name: Check formatting
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - name: Run Clippy for linting
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -- -D warnings --no-deps
