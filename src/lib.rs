@@ -246,7 +246,7 @@ impl Packet {
 
     /// Get the size of this packet, in other words, the number of bytes needed to store the raw
     /// representation of this packet
-    pub fn size(&self) -> usize {
+    pub fn wire_size(&self) -> usize {
         // 2 start bytes, 1 byte type, 1 byte length, the data itself and
         // 2 bytes for the checksum
         2 + 1 + 1 + self.data.len() + 2
@@ -256,7 +256,7 @@ impl Packet {
     /// to the buffer
     pub fn write(&self, buffer: &mut [u8]) -> core::result::Result<usize, WriteError> {
         // Check that the buffer is large enough to fill with this packet the buffer needs to hold
-        if buffer.len() < self.size() {
+        if buffer.len() < self.wire_size() {
             return Err(WriteError::NotEnoughSpace);
         }
         // Since there is enough space we can write to the buffer
@@ -269,7 +269,7 @@ impl Packet {
         let idx = 4 + self.data.len();
         buffer[idx] = a;
         buffer[idx + 1] = b;
-        Ok(self.size())
+        Ok(self.wire_size())
     }
 
     /// Parse a packet from a stream of bytes
@@ -407,5 +407,10 @@ mod test {
         let buffer = [START_BYTE1, START_BYTE2, 0x01, 0, a, b];
         let packet = Packet::from(&buffer);
         assert_eq!(packet, Err(ParseError::WrongChecksum(6)));
+        //                                       /---- Same Type as first time
+        let buffer = [START_BYTE1, START_BYTE2, 0x00, 0, a, b];
+        let packet = Packet::from(&buffer);
+        // Now it works as expected
+        assert!(packet.is_ok());
     }
 }
